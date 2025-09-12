@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot do Brasileirão</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Bot do Brasileirão</h1>
+            <p>Tudo sobre futebol brasileiro em um só lugar</p>
+        </header>
+
+        <div class="search-section">
+            <div class="input-group">
+                <select id="teamSelect">
+                    <option value="">Selecione um time</option>
+                    <option value="Flamengo">Flamengo</option>
+                    <option value="Palmeiras">Palmeiras</option>
+                    <option value="Corinthians">Corinthians</option>
+                    <option value="São Paulo">São Paulo</option>
+                    <option value="Santos">Santos</option>
+                    <option value="Grêmio">Grêmio</option>
+                    <option value="Internacional">Internacional</option>
+                    <option value="Cruzeiro">Cruzeiro</option>
+                    <option value="Atlético Mineiro">Atlético Mineiro</option>
+                    <option value="Botafogo">Botafogo</option>
+                    <option value="Fluminense">Fluminense</option>
+                    <option value="Vasco">Vasco da Gama</option>
+                    <option value="Bahia">Bahia</option>
+                    <option value="Sport">Sport</option>
+                    <option value="Fortaleza">Fortaleza</option>
+                    <option value="Ceará">Ceará</option>
+                    <option value="Athletico Paranaense">Athletico Paranaense</option>
+                    <option value="Coritiba">Coritiba</option>
+                    <option value="Goiás">Goiás</option>
+                </select>
+                <button id="searchBtn">Buscar</button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Buscando informações...</p>
+        </div>
+
+        <div class="results" id="results">
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="card" id="nextMatchCard">
+                <h2>Próximo Jogo</h2>
+                <div class="match-info" id="nextMatch"></div>
+            </div>
+
+            <div class="card" id="lastMatchesCard">
+                <h2>Últimos Confrontos</h2>
+                <div id="lastMatches"></div>
+            </div>
+
+            <div class="card" id="lineupCard">
+                <h2>Provável Escalação</h2>
+                <div id="lineup"></div>
+            </div>
+
+            <div class="card" id="newsCard">
+                <h2>Notícias Recentes</h2>
+                <div id="news"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
