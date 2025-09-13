@@ -40,7 +40,7 @@ def get_team_info():
             return jsonify({"error": "API key não configurada"}), 500
         
         # Usar o modelo Gemini para obter informações
-        model = genai.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel('gemini-2.0-flash')
         
         # Prompt para informações do time
         prompt = f"""
