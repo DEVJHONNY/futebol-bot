@@ -1,5 +1,5 @@
 // URL da API backend (substitua pela URL do seu backend no Render)
-const API_URL = 'https://futebol-bot-backend.onrender.com';
+const API_URL = 'https://futebol-bot-backend.onrender.com/api/team-info';
 
 // Elementos da DOM
 const teamSelect = document.getElementById('teamSelect');
