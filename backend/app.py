@@ -6,6 +6,7 @@ import os
 import json
 import re
 from dotenv import load_dotenv
+from datetime import datetime
 
 # Carregar variáveis de ambiente
 load_dotenv()
@@ -58,14 +59,19 @@ def get_team_info():
         if not team:
             return jsonify({"error": "Time não especificado"}), 400
         
-        # Prompt para informações do time
+        # Obter o ano atual
+        current_year = datetime.now().year
+        
+        # Prompt para informações do time - ESPECIFICANDO 2025
         prompt = f"""
-        Como especialista em futebol brasileiro, forneça informações REAIS sobre o time {team} no Campeonato Brasileiro.
+        Como especialista em futebol brasileiro, forneça informações REAIS e ATUALIZADAS sobre o time {team}.
+        
+        IMPORTANTE: Estamos em {current_year}. Forneça informações ATUAIS de {current_year}, não de 2024.
         
         Retorne APENAS um JSON com a seguinte estrutura:
         {{
           "next_match": {{
-            "date": "data real",
+            "date": "data real do próximo jogo em 2025",
             "time": "horário real", 
             "stadium": "estádio real",
             "opponent": "adversário real",
@@ -73,33 +79,34 @@ def get_team_info():
           }},
           "last_matches": [
             {{
-              "date": "data real",
+              "date": "data real de um jogo recente em 2025",
               "opponent": "adversário real", 
               "result": "resultado real",
               "competition": "competição real"
             }},
             {{
-              "date": "data real",
+              "date": "data real de um jogo recente em 2025", 
               "opponent": "adversário real",
               "result": "resultado real", 
               "competition": "competição real"
             }}
           ],
           "probable_lineup": {{
-            "formation": "formação tática",
-            "players": ["jogador1", "jogador2", "jogador3", "jogador4", "jogador5", "jogador6", "jogador7", "jogador8", "jogador9", "jogador10", "jogador11"]
+            "formation": "formação tática atual",
+            "players": ["jogador1 atual", "jogador2 atual", "jogador3 atual", "jogador4 atual", "jogador5 atual", "jogador6 atual", "jogador7 atual", "jogador8 atual", "jogador9 atual", "jogador10 atual", "jogador11 atual"]
           }},
           "news": [
             {{
-              "title": "título real de notícia",
+              "title": "título real de notícia RECENTE de {current_year}",
               "summary": "resumo real da notícia",
-              "date": "data da notícia",
+              "date": "data da notícia em 2025",
               "source": "fonte da notícia"
             }}
           ]
         }}
         
-        Forneça informações VERDADEIRAS e ATUALIZADAS sobre o {team}.
+        Forneça informações VERDADEIRAS e ATUALIZADAS de {current_year} sobre o {team}.
+        Não use informações de 2024 ou anos anteriores.
         """
         
         response = gemini_model.generate_content(prompt)
@@ -119,7 +126,8 @@ def health_check():
     return jsonify({
         "status": "healthy", 
         "gemini_configured": gemini_configured,
-        "model": "gemini-2.0-flash" if gemini_configured else "none"
+        "model": "gemini-2.0-flash" if gemini_configured else "none",
+        "current_year": datetime.now().year
     })
 
 @app.route('/test-gemini', methods=['GET'])
@@ -129,13 +137,14 @@ def test_gemini():
         if not gemini_configured or not gemini_model:
             return jsonify({"error": "API Gemini não configurada"}), 500
             
-        response = gemini_model.generate_content("Me responda apenas 'OK' se estiver funcionando")
+        response = gemini_model.generate_content(f"Em que ano estamos? Responda apenas com o ano atual.")
         
         return jsonify({
             "status": "success",
             "response": response.text,
             "message": "Conexão com Gemini API bem-sucedida",
-            "model": "gemini-2.0-flash"
+            "model": "gemini-2.0-flash",
+            "current_year": datetime.now().year
         })
     except Exception as e:
         return jsonify({
@@ -144,34 +153,11 @@ def test_gemini():
             "message": "Erro ao conectar com Gemini API. Verifique sua chave API."
         }), 500
 
-@app.route('/api/chat', methods=['POST'])
-def chat():
-    """Endpoint similar ao que você já tem funcionando"""
-    try:
-        if not gemini_configured or not gemini_model:
-            return jsonify({"error": "API Gemini não configurada"}), 500
-            
-        data = request.get_json()
-        message = data.get('message')
-        
-        if not message:
-            return jsonify({"error": "A mensagem é obrigatória"}), 400
-        
-        response = gemini_model.generate_content(message)
-        
-        return jsonify({
-            "reply": response.text,
-            "status": "success"
-        })
-        
-    except Exception as e:
-        print(f"❌ Erro no chat: {str(e)}")
-        return jsonify({"error": "Não foi possível se comunicar com o assistente"}), 500
-
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     print(f"🚀 Servidor iniciando na porta {port}")
     print(f"🔑 Gemini Configurado: {gemini_configured}")
     if gemini_configured:
         print(f"🤖 Modelo: gemini-2.0-flash")
+    print(f"📅 Ano atual: {datetime.now().year}")
     app.run(host='0.0.0.0', port=port)
