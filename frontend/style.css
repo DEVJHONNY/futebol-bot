@@ -223,3 +223,56 @@ header p {
         margin: 10px 0;
     }
 }
+
+/* Adicione estas classes no final do arquivo style.css */
+
+.small-text {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.match-result.victory {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.match-result.defeat {
+    color: #c62828;
+    font-weight: bold;
+}
+
+.match-result.draw {
+    color: #ff8f00;
+    font-weight: bold;
+}
+
+.position {
+    font-weight: bold;
+    color: #008000;
+    margin-right: 5px;
+}
+
+.lineup-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+.lineup-list li:last-child {
+    border-bottom: none;
+}
+
+/* Melhorias para mobile */
+@media (max-width: 480px) {
+    .lineup-list li {
+        font-size: 0.9rem;
+        padding: 6px 0;
+    }
+
+    .position {
+        min-width: 40px;
+    }
+}
