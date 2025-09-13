@@ -44,14 +44,10 @@ async function handleSearch() {
             body: JSON.stringify({ team })
         });
 
-        if (!response.ok) {
-            throw new Error(`Erro na API: ${response.status}`);
-        }
-
         const data = await response.json();
 
-        if (data.error) {
-            throw new Error(data.error);
+        if (!response.ok) {
+            throw new Error(data.error || `Erro na API: ${response.status}`);
         }
 
         displayNextMatch(data.next_match, team);
@@ -64,7 +60,7 @@ async function handleSearch() {
     } catch (error) {
         console.error('Erro ao buscar informações:', error);
         hideLoading();
-        showError('Erro ao buscar informações. Tente novamente mais tarde.');
+        showError(error.message || 'Erro ao buscar informações. Tente novamente mais tarde.');
     }
 }
 
